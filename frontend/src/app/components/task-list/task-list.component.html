@@ -1,77 +1,130 @@
-<div class="task-dashboard container">
-  <div class="dashboard-header glass-panel">
+<div class="dashboard">
+
+  <!-- ===== HEADER ===== -->
+  <div class="dashboard-header">
     <div class="header-content">
-      <h2>Your Tasks</h2>
-      <p>Manage your daily activities and stay organized.</p>
+      <h1 class="gradient-text">Your Tasks</h1>
+      <p class="header-subtitle">Manage your workflow and stay on top of every task.</p>
     </div>
-    
-    <button class="btn-primary" (click)="toggleForm()">
+    <button class="btn-primary btn-new-task" (click)="toggleForm()">
       <i class="fas" [ngClass]="showForm ? 'fa-times' : 'fa-plus'"></i>
       {{ showForm ? 'Cancel' : 'New Task' }}
     </button>
   </div>
 
-  <div *ngIf="error" class="error-message glass-panel">
-    <i class="fas fa-exclamation-triangle"></i> {{ error }}
-  </div>
-
-  <div class="form-container *ngIf='showForm'">
-    <app-task-form *ngIf="showForm" (taskCreated)="onTaskCreated()" (cancel)="toggleForm()"></app-task-form>
-  </div>
-
-  <div *ngIf="isLoading" class="loader-container glass-panel">
-    <div class="loader"></div>
-    <p>Loading your tasks...</p>
-  </div>
-
-  <div *ngIf="!isLoading && tasks.length === 0 && !error" class="empty-state glass-panel">
-    <div class="empty-icon"><i class="fas fa-clipboard-list"></i></div>
-    <h3>No tasks found</h3>
-    <p>You're all caught up! Create a new task to get started.</p>
-  </div>
-
-  <div *ngIf="!isLoading && tasks.length > 0" class="task-grid">
-    <div *ngFor="let task of tasks" class="task-card glass-panel" [ngClass]="{'completed-card': task.status === 'COMPLETED'}">
-      
-      <div class="task-card-header">
-        <span class="badge" [ngClass]="getPriorityClass(task.priority)">
-          <i class="fas" [ngClass]="{'fa-arrow-up': task.priority === 'HIGH', 'fa-minus': task.priority === 'MEDIUM', 'fa-arrow-down': task.priority === 'LOW'}"></i>
-          {{ task.priority }}
-        </span>
-        <div class="task-actions">
-           <button class="btn-icon delete-btn" (click)="deleteTask(task.id)" title="Delete Task">
-             <i class="fas fa-trash-alt"></i>
-           </button>
-        </div>
+  <!-- ===== STATS BAR ===== -->
+  <div *ngIf="!isLoading && tasks.length > 0" class="stats-bar">
+    <div class="stat-card glass-panel">
+      <div class="stat-icon stat-icon-total"><i class="fas fa-layer-group"></i></div>
+      <div class="stat-info">
+        <span class="stat-value">{{ tasks.length }}</span>
+        <span class="stat-label">Total</span>
       </div>
-
-      <div class="task-card-body">
-        <h3 [class.completed-text]="task.status === 'COMPLETED'">{{ task.title }}</h3>
-        <p *ngIf="task.description" class="task-desc">{{ task.description }}</p>
+    </div>
+    <div class="stat-card glass-panel">
+      <div class="stat-icon stat-icon-pending"><i class="fas fa-clock"></i></div>
+      <div class="stat-info">
+        <span class="stat-value">{{ getTaskCount('PENDING') }}</span>
+        <span class="stat-label">Pending</span>
       </div>
-
-      <div class="task-card-footer">
-        <div class="status-dropdown">
-          <select 
-            [ngModel]="task.status" 
-            (ngModelChange)="updateStatus(task.id, $event)"
-            [ngClass]="getStatusClass(task.status)"
-            class="status-select">
-            <option value="PENDING">Pending</option>
-            <option value="IN_PROGRESS">In Progress</option>
-            <option value="COMPLETED">Completed</option>
-          </select>
-        </div>
-        <div class="task-date">
-          <i class="far fa-clock"></i> {{ task.createdAt | date:'shortDate' }}
-        </div>
+    </div>
+    <div class="stat-card glass-panel">
+      <div class="stat-icon stat-icon-progress"><i class="fas fa-spinner"></i></div>
+      <div class="stat-info">
+        <span class="stat-value">{{ getTaskCount('IN_PROGRESS') }}</span>
+        <span class="stat-label">In Progress</span>
       </div>
-
+    </div>
+    <div class="stat-card glass-panel">
+      <div class="stat-icon stat-icon-done"><i class="fas fa-check-circle"></i></div>
+      <div class="stat-info">
+        <span class="stat-value">{{ getTaskCount('COMPLETED') }}</span>
+        <span class="stat-label">Completed</span>
+      </div>
     </div>
   </div>
 
-  <!-- Pagination Controls -->
-  <div *ngIf="!isLoading && totalPages > 1" class="pagination glass-panel">
+  <!-- ===== ERROR ===== -->
+  <div *ngIf="error" class="error-banner glass-panel">
+    <i class="fas fa-exclamation-triangle"></i> {{ error }}
+  </div>
+
+  <!-- ===== FORM ===== -->
+  <div class="form-container" *ngIf="showForm">
+    <app-task-form (taskCreated)="onTaskCreated()" (cancel)="toggleForm()"></app-task-form>
+  </div>
+
+  <!-- ===== LOADING ===== -->
+  <div *ngIf="isLoading" class="loader-container glass-panel">
+    <div class="pulse-loader">
+      <div class="pulse-dot"></div>
+      <div class="pulse-dot"></div>
+      <div class="pulse-dot"></div>
+    </div>
+    <p>Loading your tasks...</p>
+  </div>
+
+  <!-- ===== EMPTY STATE ===== -->
+  <div *ngIf="!isLoading && tasks.length === 0 && !error" class="empty-state glass-panel">
+    <div class="empty-icon-wrapper">
+      <i class="fas fa-inbox"></i>
+    </div>
+    <h3>No tasks yet</h3>
+    <p>You're all caught up! Create your first task to get started.</p>
+    <button class="btn-primary" (click)="toggleForm()">
+      <i class="fas fa-plus"></i> Create First Task
+    </button>
+  </div>
+
+  <!-- ===== TASK GRID ===== -->
+  <div *ngIf="!isLoading && tasks.length > 0" class="task-grid">
+    <div 
+      *ngFor="let task of tasks; let i = index" 
+      class="task-card glass-panel" 
+      [ngClass]="{'completed-card': task.status === 'COMPLETED'}"
+      [style.animation-delay]="(i * 0.06) + 's'">
+      
+      <!-- Priority stripe -->
+      <div class="priority-stripe" [ngClass]="getPriorityClass(task.priority)"></div>
+
+      <div class="task-card-inner">
+        <div class="task-card-header">
+          <span class="badge" [ngClass]="getPriorityClass(task.priority)">
+            <i class="fas" [ngClass]="{'fa-arrow-up': task.priority === 'HIGH', 'fa-minus': task.priority === 'MEDIUM', 'fa-arrow-down': task.priority === 'LOW'}"></i>
+            {{ task.priority }}
+          </span>
+          <button class="btn-danger-ghost" (click)="deleteTask(task.id)" title="Delete Task">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+
+        <div class="task-card-body">
+          <h3 [class.completed-text]="task.status === 'COMPLETED'">{{ task.title }}</h3>
+          <p *ngIf="task.description" class="task-desc">{{ task.description }}</p>
+        </div>
+
+        <div class="task-card-footer">
+          <div class="status-dropdown">
+            <select 
+              [ngModel]="task.status" 
+              (ngModelChange)="updateStatus(task.id, $event)"
+              [ngClass]="getStatusClass(task.status)"
+              class="status-select">
+              <option value="PENDING">⏳ Pending</option>
+              <option value="IN_PROGRESS">🔄 In Progress</option>
+              <option value="COMPLETED">✅ Completed</option>
+            </select>
+          </div>
+          <div class="task-date">
+            <i class="far fa-calendar-alt"></i> {{ task.createdAt | date:'mediumDate' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGINATION ===== -->
+  <div *ngIf="!isLoading && totalPages > 1" class="pagination">
     <button (click)="prevPage()" [disabled]="currentPage === 0" class="btn-page">
       <i class="fas fa-chevron-left"></i> Prev
     </button>

@@ -1,22 +1,34 @@
 <nav class="navbar glass-panel">
   <div class="nav-brand" routerLink="/">
-    <i class="fas fa-check-double logo-icon"></i>
-    <span>Enterprise TaskManager</span>
+    <div class="logo-badge">
+      <i class="fas fa-bolt"></i>
+    </div>
+    <span class="brand-text">Task<strong>Flow</strong></span>
   </div>
 
   <div class="nav-links">
     <!-- Show when LOGGED IN -->
     <ng-container *ngIf="authService.isLoggedIn()">
-      <span class="welcome-text">Hi, <strong>{{ authService.getUsername() }}</strong></span>
+      <div class="user-pill">
+        <div class="avatar-circle">
+          <i class="fas fa-user"></i>
+        </div>
+        <span class="username">{{ authService.getUsername() }}</span>
+      </div>
       <button class="btn-logout" (click)="onLogout()">
-        <i class="fas fa-sign-out-alt"></i> Logout
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
       </button>
     </ng-container>
 
     <!-- Show when LOGGED OUT -->
     <ng-container *ngIf="!authService.isLoggedIn()">
-      <a routerLink="/login" class="nav-link" routerLinkActive="active">Log In</a>
-      <a routerLink="/register" class="btn-primary btn-small">Sign Up</a>
+      <a routerLink="/login" class="nav-link" routerLinkActive="active">
+        <i class="fas fa-sign-in-alt"></i> Log In
+      </a>
+      <a routerLink="/register" class="btn-primary btn-nav">
+        <i class="fas fa-rocket"></i> Get Started
+      </a>
     </ng-container>
   </div>
 </nav>

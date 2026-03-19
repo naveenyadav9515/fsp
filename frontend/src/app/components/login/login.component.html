@@ -1,49 +1,73 @@
-<div class="auth-container">
+<div class="auth-page">
+  <!-- Decorative floating shapes -->
+  <div class="auth-decor" aria-hidden="true">
+    <div class="decor-ring decor-ring-1"></div>
+    <div class="decor-ring decor-ring-2"></div>
+    <div class="decor-dot decor-dot-1"></div>
+    <div class="decor-dot decor-dot-2"></div>
+    <div class="decor-dot decor-dot-3"></div>
+  </div>
+
   <div class="auth-card glass-panel">
+    <!-- Icon badge -->
+    <div class="auth-icon-badge">
+      <i class="fas fa-lock"></i>
+    </div>
+
     <div class="auth-header">
-      <h2>Welcome Back</h2>
-      <p>Log in to manage your tasks effectively.</p>
+      <h2 class="gradient-text">Welcome Back</h2>
+      <p>Sign in to continue to your dashboard</p>
     </div>
 
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="auth-form">
       <div class="input-group">
         <label for="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          [(ngModel)]="credentials.username"
-          required
-          placeholder="Enter your username"
-          autocomplete="username"
-        />
+        <div class="input-wrapper">
+          <i class="fas fa-user input-icon"></i>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="credentials.username"
+            required
+            placeholder="Enter your username"
+            autocomplete="username"
+          />
+        </div>
       </div>
 
       <div class="input-group">
         <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          [(ngModel)]="credentials.password"
-          required
-          placeholder="••••••••"
-          autocomplete="current-password"
-        />
+        <div class="input-wrapper">
+          <i class="fas fa-key input-icon"></i>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="credentials.password"
+            required
+            placeholder="••••••••"
+            autocomplete="current-password"
+          />
+        </div>
       </div>
 
       <div class="error-message" *ngIf="errorMessage">
         <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
       </div>
 
-      <button type="submit" class="btn-primary" [disabled]="isLoading || !loginForm.form.valid">
-        <span *ngIf="!isLoading">Log In</span>
+      <button type="submit" class="btn-primary btn-full" [disabled]="isLoading || !loginForm.form.valid">
+        <span *ngIf="!isLoading"><i class="fas fa-arrow-right"></i> Sign In</span>
         <span *ngIf="isLoading" class="loader"></span>
       </button>
     </form>
 
+    <div class="auth-divider">
+      <span>or</span>
+    </div>
+
     <div class="auth-footer">
-      <p>Don't have an account? <a routerLink="/register">Sign up here</a></p>
+      <p>Don't have an account? <a routerLink="/register">Create one now</a></p>
     </div>
   </div>
 </div>

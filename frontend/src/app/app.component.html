@@ -1,6 +1,14 @@
-<app-navbar></app-navbar>
+<div class="app-shell">
+  <!-- Animated background orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
 
-<main class="container">
-  <!-- The router outlet is where our Login, Register, or Tasks components will be displayed -->
-  <router-outlet></router-outlet>
-</main>
+  <app-navbar></app-navbar>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,48 +1,70 @@
-<div class="auth-container">
+<div class="auth-page">
+  <!-- Decorative floating shapes -->
+  <div class="auth-decor" aria-hidden="true">
+    <div class="decor-ring decor-ring-1"></div>
+    <div class="decor-ring decor-ring-2"></div>
+    <div class="decor-dot decor-dot-1"></div>
+    <div class="decor-dot decor-dot-2"></div>
+    <div class="decor-dot decor-dot-3"></div>
+  </div>
+
   <div class="auth-card glass-panel">
+    <!-- Icon badge -->
+    <div class="auth-icon-badge">
+      <i class="fas fa-user-plus"></i>
+    </div>
+
     <div class="auth-header">
-      <h2>Create Account</h2>
-      <p>Join us to start organizing your life.</p>
+      <h2 class="gradient-text">Create Account</h2>
+      <p>Join us and start organizing your workflow</p>
     </div>
 
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="auth-form">
-      
       <div class="input-group">
         <label for="username">Choose Username</label>
-        <input 
-          type="text" 
-          id="username" 
-          name="username" 
-          [(ngModel)]="userData.username" 
-          required 
-          minlength="3"
-          placeholder="e.g. jdoe123"
-        />
+        <div class="input-wrapper">
+          <i class="fas fa-at input-icon"></i>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            [(ngModel)]="userData.username" 
+            required 
+            minlength="3"
+            placeholder="e.g. johndoe"
+          />
+        </div>
       </div>
 
       <div class="input-group">
         <label for="password">Create Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          [(ngModel)]="userData.password" 
-          required 
-          minlength="6"
-          placeholder="••••••••"
-        />
+        <div class="input-wrapper">
+          <i class="fas fa-key input-icon"></i>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            [(ngModel)]="userData.password" 
+            required 
+            minlength="6"
+            placeholder="••••••••"
+          />
+        </div>
       </div>
 
       <div class="input-group">
         <label for="confirmPassword">Confirm Password</label>
-        <input 
-          type="password" 
-          id="confirmPassword" 
-          name="confirmPassword" 
-          [(ngModel)]="confirmPassword" 
-          required 
-          placeholder="••••••••"
-        />
+        <div class="input-wrapper">
+          <i class="fas fa-shield-alt input-icon"></i>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            name="confirmPassword" 
+            [(ngModel)]="confirmPassword" 
+            required 
+            placeholder="••••••••"
+          />
+        </div>
       </div>
 
       <!-- Error State -->
@@ -55,15 +77,18 @@
         <i class="fas fa-check-circle"></i> {{ successMessage }}
       </div>
 
-      <button type="submit" class="btn-primary" [disabled]="isLoading || !registerForm.form.valid">
-        <span *ngIf="!isLoading">Create Account</span>
+      <button type="submit" class="btn-primary btn-full" [disabled]="isLoading || !registerForm.form.valid">
+        <span *ngIf="!isLoading"><i class="fas fa-rocket"></i> Create Account</span>
         <span *ngIf="isLoading" class="loader"></span>
       </button>
-
     </form>
 
+    <div class="auth-divider">
+      <span>or</span>
+    </div>
+
     <div class="auth-footer">
-      <p>Already have an account? <a routerLink="/login">Log in here</a></p>
+      <p>Already have an account? <a routerLink="/login">Sign in here</a></p>
     </div>
   </div>
 </div>

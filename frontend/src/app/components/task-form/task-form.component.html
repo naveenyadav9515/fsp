@@ -1,7 +1,15 @@
 <div class="task-form-panel glass-panel">
+  <!-- Animated gradient border -->
+  <div class="form-glow-border" aria-hidden="true"></div>
+
   <div class="form-header">
-    <h3>Create New Task</h3>
-    <p>Fill out the details below to add a task to your board.</p>
+    <div class="form-header-icon">
+      <i class="fas fa-pen-fancy"></i>
+    </div>
+    <div>
+      <h3>Create New Task</h3>
+      <p>Fill out the details to add a task to your board.</p>
+    </div>
   </div>
 
   <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
@@ -10,43 +18,62 @@
       <div class="form-left">
         <div class="input-group">
           <label for="title">Task Title <span class="required">*</span></label>
-          <input 
-            type="text" 
-            id="title" 
-            name="title" 
-            [(ngModel)]="task.title" 
-            required 
-            placeholder="What needs to be done?"
-            autocomplete="off"
-            #titleInput="ngModel"
-          />
+          <div class="input-wrapper">
+            <i class="fas fa-heading input-icon"></i>
+            <input 
+              type="text" 
+              id="title" 
+              name="title" 
+              [(ngModel)]="task.title" 
+              required 
+              placeholder="What needs to be done?"
+              autocomplete="off"
+              #titleInput="ngModel"
+            />
+          </div>
         </div>
 
         <div class="input-group">
-          <label for="priority">Priority</label>
-          <select 
-            id="priority" 
-            name="priority" 
-            [(ngModel)]="task.priority" 
-            required>
-            <option value="LOW">Low</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="HIGH">High</option>
-          </select>
+          <label for="priority">Priority Level</label>
+          <div class="priority-buttons">
+            <button 
+              type="button" 
+              class="priority-btn priority-btn-low" 
+              [class.active]="task.priority === 'LOW'"
+              (click)="task.priority = 'LOW'">
+              <i class="fas fa-arrow-down"></i> Low
+            </button>
+            <button 
+              type="button" 
+              class="priority-btn priority-btn-medium" 
+              [class.active]="task.priority === 'MEDIUM'"
+              (click)="task.priority = 'MEDIUM'">
+              <i class="fas fa-minus"></i> Medium
+            </button>
+            <button 
+              type="button" 
+              class="priority-btn priority-btn-high" 
+              [class.active]="task.priority === 'HIGH'"
+              (click)="task.priority = 'HIGH'">
+              <i class="fas fa-arrow-up"></i> High
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Right Column -->
       <div class="form-right">
         <div class="input-group">
-          <label for="description">Description (Optional)</label>
-          <textarea 
-            id="description" 
-            name="description" 
-            [(ngModel)]="task.description" 
-            placeholder="Add some details..."
-            rows="5"
-          ></textarea>
+          <label for="description">Description <span class="optional">(Optional)</span></label>
+          <div class="input-wrapper">
+            <textarea 
+              id="description" 
+              name="description" 
+              [(ngModel)]="task.description" 
+              placeholder="Add some details about this task..."
+              rows="5"
+            ></textarea>
+          </div>
         </div>
       </div>
     </div>
@@ -59,10 +86,10 @@
     <!-- Actions -->
     <div class="form-actions">
       <button type="button" class="btn-secondary" (click)="cancel.emit()">
-        Cancel
+        <i class="fas fa-times"></i> Cancel
       </button>
       <button type="submit" class="btn-primary" [disabled]="isSubmitting || !taskForm.form.valid">
-        <span *ngIf="!isSubmitting"><i class="fas fa-save"></i> Save Task</span>
+        <span *ngIf="!isSubmitting"><i class="fas fa-check"></i> Create Task</span>
         <span *ngIf="isSubmitting" class="loader"></span>
       </button>
     </div>

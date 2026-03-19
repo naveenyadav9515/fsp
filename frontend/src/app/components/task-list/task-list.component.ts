@@ -94,6 +94,10 @@ export class TaskListComponent implements OnInit {
     this.loadTasks(0); // Go back to first page to see the new task (assuming desc sort)
   }
 
+  getTaskCount(status: string): number {
+    return this.tasks.filter(t => t.status === status).length;
+  }
+
   getPriorityClass(priority: string): string {
     return 'priority-' + priority?.toLowerCase();
   }
