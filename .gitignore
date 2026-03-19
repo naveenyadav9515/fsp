@@ -1,0 +1,21 @@
+node_modules/
+dist/
+/out-tsc/
+/bazel-out/
+.angular/
+
+# Java
+.gradle/
+build/
+target/
+*.class
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

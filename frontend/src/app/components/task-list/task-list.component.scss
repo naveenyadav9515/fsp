@@ -1,0 +1,209 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  
+  .header-content {
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    p {
+      color: var(--text-secondary);
+    }
+  }
+}
+
+.form-container {
+  margin-bottom: 2rem;
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Individual Task Card */
+.task-card {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.completed-card {
+  opacity: 0.75;
+  background: rgba(16, 185, 129, 0.03);
+}
+
+.task-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  
+  &.priority-high {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+  &.priority-medium {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+  &.priority-low {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+}
+
+.delete-btn {
+  color: var(--text-muted);
+  &:hover { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+}
+
+.task-card-body {
+  flex-grow: 1;
+  
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    &.completed-text { text-decoration: line-through; color: var(--text-secondary); }
+  }
+  
+  .task-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.task-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-select {
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s;
+  
+  &.status-pending { color: var(--warning); }
+  &.status-in_progress { color: var(--primary-light); }
+  &.status-completed { color: var(--success); }
+  
+  &:focus { 
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(120, 115, 245, 0.2);
+  }
+  
+  option {
+    background: var(--bg-dark);
+    color: white;
+  }
+}
+
+.task-date {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  
+  .btn-page {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    
+    &:hover:not(:disabled) {
+      background: var(--primary);
+    }
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+  
+  .page-info {
+    color: var(--text-secondary);
+    strong { color: white; }
+  }
+}
+
+.loader-container, .empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+  text-align: center;
+  gap: 1rem;
+  
+  p { color: var(--text-secondary); }
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}

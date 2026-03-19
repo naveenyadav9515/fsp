@@ -1,0 +1,88 @@
+/*
+ * ============================================================
+ * BUILD.GRADLE — The Project's Dependency Manager
+ * ============================================================
+ *
+ * WHAT IS THIS FILE?
+ * Think of this file like a "shopping list" for your project.
+ * It tells Gradle (the build tool) what libraries to download
+ * and how to compile your project.
+ *
+ * WHAT IS GRADLE?
+ * Gradle is a build tool (like Maven). It:
+ *   1. Downloads libraries from the internet (dependencies)
+ *   2. Compiles your Java code
+ *   3. Runs your tests
+ *   4. Packages your app into a JAR file
+ *
+ * ============================================================
+ */
+
+// PLUGINS — These add capabilities to Gradle
+plugins {
+    id 'java'                                                  // Tells Gradle "this is a Java project"
+    id 'org.springframework.boot' version '3.2.5'              // Adds Spring Boot support
+    id 'io.spring.dependency-management' version '1.1.4'       // Manages dependency versions automatically
+}
+
+// PROJECT INFO
+group = 'com.enterprise'           // Your company/organization name (like a package prefix)
+version = '1.0.0-SNAPSHOT'        // Your app version (SNAPSHOT = still in development)
+
+// JAVA VERSION
+java {
+    sourceCompatibility = '17'     // We are using Java 17 (a Long Term Support version)
+}
+
+// WHERE TO DOWNLOAD LIBRARIES FROM
+repositories {
+    mavenCentral()                 // Maven Central = the biggest public Java library store
+}
+
+/*
+ * DEPENDENCIES — The "shopping list" of libraries we need.
+ *
+ * 'implementation'      = Needed at compile time AND runtime
+ * 'testImplementation'  = Only needed for running tests
+ * 'developmentOnly'     = Only used during development (not in production)
+ */
+dependencies {
+
+    // ---- SPRING BOOT STARTERS ----
+    // Starters are "bundles" that include everything you need for a feature.
+
+    // WEB: Gives us REST API support (@RestController, @GetMapping, etc.)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // MONGODB: Gives us database access (MongoRepository, @Document, etc.)
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+    // VALIDATION: Gives us input validation (@NotBlank, @Size, @Valid, etc.)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // SECURITY: Gives us authentication & authorization (login, JWT, roles, etc.)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // CACHE: Gives us caching support (@Cacheable, @CacheEvict, etc.)
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+    // ---- JWT (JSON Web Token) Libraries ----
+    // These 3 libraries handle creating and reading JWT tokens
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'           // The API (interfaces)
+    runtimeOnly    'io.jsonwebtoken:jjwt-impl:0.12.5'          // The implementation
+    runtimeOnly    'io.jsonwebtoken:jjwt-jackson:0.12.5'       // JSON serialization for JWT
+
+    // ---- DEVELOPMENT TOOLS ----
+    // DevTools: Auto-restarts the server when you change code (saves time!)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // ---- TESTING ----
+    // Includes JUnit 5, Mockito, MockMvc, etc.
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+// Use JUnit 5 (the modern Java testing framework)
+tasks.named('test') {
+    useJUnitPlatform()
+}

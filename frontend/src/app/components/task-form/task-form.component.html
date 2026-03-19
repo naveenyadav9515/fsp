@@ -1,0 +1,70 @@
+<div class="task-form-panel glass-panel">
+  <div class="form-header">
+    <h3>Create New Task</h3>
+    <p>Fill out the details below to add a task to your board.</p>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+    <div class="form-grid">
+      <!-- Left Column -->
+      <div class="form-left">
+        <div class="input-group">
+          <label for="title">Task Title <span class="required">*</span></label>
+          <input 
+            type="text" 
+            id="title" 
+            name="title" 
+            [(ngModel)]="task.title" 
+            required 
+            placeholder="What needs to be done?"
+            autocomplete="off"
+            #titleInput="ngModel"
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="priority">Priority</label>
+          <select 
+            id="priority" 
+            name="priority" 
+            [(ngModel)]="task.priority" 
+            required>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="form-right">
+        <div class="input-group">
+          <label for="description">Description (Optional)</label>
+          <textarea 
+            id="description" 
+            name="description" 
+            [(ngModel)]="task.description" 
+            placeholder="Add some details..."
+            rows="5"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="error-message">
+      <i class="fas fa-exclamation-circle"></i> {{ error }}
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="cancel.emit()">
+        Cancel
+      </button>
+      <button type="submit" class="btn-primary" [disabled]="isSubmitting || !taskForm.form.valid">
+        <span *ngIf="!isSubmitting"><i class="fas fa-save"></i> Save Task</span>
+        <span *ngIf="isSubmitting" class="loader"></span>
+      </button>
+    </div>
+  </form>
+</div>

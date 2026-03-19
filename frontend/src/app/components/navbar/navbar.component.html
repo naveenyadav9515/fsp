@@ -1,0 +1,22 @@
+<nav class="navbar glass-panel">
+  <div class="nav-brand" routerLink="/">
+    <i class="fas fa-check-double logo-icon"></i>
+    <span>Enterprise TaskManager</span>
+  </div>
+
+  <div class="nav-links">
+    <!-- Show when LOGGED IN -->
+    <ng-container *ngIf="authService.isLoggedIn()">
+      <span class="welcome-text">Hi, <strong>{{ authService.getUsername() }}</strong></span>
+      <button class="btn-logout" (click)="onLogout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </ng-container>
+
+    <!-- Show when LOGGED OUT -->
+    <ng-container *ngIf="!authService.isLoggedIn()">
+      <a routerLink="/login" class="nav-link" routerLinkActive="active">Log In</a>
+      <a routerLink="/register" class="btn-primary btn-small">Sign Up</a>
+    </ng-container>
+  </div>
+</nav>

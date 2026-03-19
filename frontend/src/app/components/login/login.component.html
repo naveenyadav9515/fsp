@@ -1,0 +1,49 @@
+<div class="auth-container">
+  <div class="auth-card glass-panel">
+    <div class="auth-header">
+      <h2>Welcome Back</h2>
+      <p>Log in to manage your tasks effectively.</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="auth-form">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="credentials.username"
+          required
+          placeholder="Enter your username"
+          autocomplete="username"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="credentials.password"
+          required
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="isLoading || !loginForm.form.valid">
+        <span *ngIf="!isLoading">Log In</span>
+        <span *ngIf="isLoading" class="loader"></span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Don't have an account? <a routerLink="/register">Sign up here</a></p>
+    </div>
+  </div>
+</div>
